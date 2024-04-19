@@ -109,6 +109,22 @@ body {
   transition: all 0.2s ease;
 }
 
+#profile_text h1{
+  font-size: 70px
+}
+
+#profile_text h6{
+  color: #F5DEB3; 
+  font-size:25px;
+}
+
+#profile_text p{
+  font-size: 17px; 
+  line-height:2.0rem; 
+  padding-right: 5px; 
+  text-align: justify;
+}
+
 section {
   padding: 6rem;
 }

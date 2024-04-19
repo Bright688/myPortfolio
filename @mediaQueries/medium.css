@@ -1,0 +1,73 @@
+@media (min-width: 768px) and (max-width: 991px) {
+    /* Adjust navbar */
+    .navbar {
+      font-size: 14px !important;
+    }
+  
+    /* Adjust profile image */
+    #profile_col-1 img {
+      width: 100% !important;
+      height: auto !important;
+      
+    }
+  
+    /* Adjust profile details */
+    #profile_text{
+        margin-left: -50px !important;
+    }
+    #profile_text h1{
+        font-size: 45px;
+    }
+
+    #profile_text h6{
+        font-size: 20px;
+        padding-left: 15px;
+    }
+
+    #profile_text p{
+        font-size: 15px;
+    }
+
+    #profile_col-1{
+      padding-right:65px !important;
+    }
+   
+    #profile_col-2 .me-5{
+        margin-right: -10px !important;
+    }
+
+    #download_button{
+        margin-top:25px !important;
+        margin-left:-50px !important;
+    }
+
+    #download_button .btn{
+        font-size: small !important;
+    }
+
+    /* Adjust aboutme_col-1 image */
+    #aboutme_col-1 img {
+        width: 355px !important;
+        height: 300px !important;
+        
+    }
+    #aboutme-text{
+        margin-left:-60px !important;
+
+        
+    }
+    #aboutme-text{
+        margin-left:-60px !important;
+        
+    }
+    #aboutme-text p{
+        font-size: 15px !important;
+        line-height: 1.5 !important;
+        
+    }
+    #aboutme-text h3{
+        font-size: 15px !important
+    }
+
+   
+  }
