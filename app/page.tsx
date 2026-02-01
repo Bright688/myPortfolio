@@ -398,7 +398,7 @@ export default function Home() {
           <div className="mt-8 grid gap-6 lg:grid-cols-2 text-justify">
             {experience.map((role) => (
               <article
-                key={`${role.company}-${role.role}`}
+                key={`${role.role}-${role.location}`}
                 className="rounded-3xl border border-black/5 bg-white/80 p-6 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.35)]"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-[color:var(--muted)]">
