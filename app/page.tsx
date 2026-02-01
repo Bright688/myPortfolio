@@ -237,12 +237,12 @@ export default function Home() {
               <a className="transition hover:text-black" href="#skills">
                 Skills
               </a>
-              <a
-                className="transition hover:text-black"
-                href="#awards-publications"
-              >
-                Achievements
-              </a>
+            <a className="transition hover:text-black" href="#achievements">
+              Achievements
+            </a>
+            <a className="transition hover:text-black" href="#publications">
+              Publications
+            </a>
               <a className="transition hover:text-black" href="#certifications">
                 Certifications
               </a>
@@ -280,10 +280,17 @@ export default function Home() {
               </a>
               <a
                 className="transition hover:text-black"
-                href="#awards-publications"
+                href="#achievements"
                 onClick={() => setMenuOpen(false)}
               >
                 Achievements
+              </a>
+              <a
+                className="transition hover:text-black"
+                href="#publications"
+                onClick={() => setMenuOpen(false)}
+              >
+                Publications
               </a>
               <a
                 className="transition hover:text-black"
@@ -481,11 +488,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section
-          id="awards-publications"
-          className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]"
-        >
-          <div className="animate-fade-up rounded-[32px] border border-black/5 bg-white/80 p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
+        <section id="achievements" className="animate-fade-up">
+          <div className="rounded-[32px] border border-black/5 bg-white/80 p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
             <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--muted)]">
               Key Achievements
             </p>
@@ -525,10 +529,16 @@ export default function Home() {
               </li>
             </ul>
           </div>
-          <div className="animate-fade-up rounded-[32px] border border-black/5 bg-white/80 p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
+        </section>
+
+        <section id="publications" className="animate-fade-up">
+          <div className="rounded-[32px] border border-black/5 bg-white/80 p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
             <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--muted)]">
               Publications
             </p>
+            <h2 className="mt-3 text-2xl font-semibold font-[var(--font-display)]">
+              Research and industry writing
+            </h2>
             <ul className="mt-4 space-y-4 text-sm text-[color:var(--muted)] text-justify">
               {publications.map((pub) => (
                 <li key={pub.title}>
