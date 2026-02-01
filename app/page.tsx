@@ -302,7 +302,7 @@ export default function Home() {
             </div>
           </div>
         </nav>
-        <header className="flex flex-col items-start justify-between gap-10 pt-6 lg:flex-row lg:items-center">
+        <header className="flex flex-col items-start justify-between gap-10 pt-6 lg:flex-row lg:items-center sm: mt-24">
           <div className="animate-fade-up max-w-2xl">
             <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--muted)]">
               Software Developer • AI Research Engineer • Data Scientist
