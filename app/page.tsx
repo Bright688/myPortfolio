@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const experience = [
   {
@@ -201,32 +201,53 @@ const skills = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const stored =
+      typeof window !== "undefined"
+        ? (localStorage.getItem("theme") as "light" | "dark" | null)
+        : null;
+    const prefersDark =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const initial = stored ?? (prefersDark ? "dark" : "light");
+    setTheme(initial);
+    document.documentElement.classList.toggle("dark", initial === "dark");
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      if (typeof window !== "undefined") {
+        localStorage.setItem("theme", next);
+      }
+      document.documentElement.classList.toggle("dark", next === "dark");
+      return next;
+    });
+  };
 
   return (
-    <div className="relative overflow-hidden bg-[radial-gradient(circle_at_top,#fff4e6_0%,#f6f3ee_45%,#efe8dd_100%)] text-foreground">
+    <div
+      className={`relative overflow-hidden text-foreground ${
+        theme === "dark"
+          ? "bg-[radial-gradient(circle_at_top,#1b1410_0%,#0c0b0a_55%,#080707_100%)]"
+          : "bg-[radial-gradient(circle_at_top,#fff4e6_0%,#f6f3ee_45%,#efe8dd_100%)]"
+      }`}
+    >
       <div className="grain pointer-events-none absolute inset-0" />
       <div className="absolute -top-32 right-0 h-80 w-80 rounded-full bg-[conic-gradient(from_120deg,#f6c08b,#f0e2c9,#f6c08b)] opacity-40 blur-2xl" />
       <div className="absolute -bottom-48 left-0 h-96 w-96 rounded-full bg-[radial-gradient(circle_at_center,#f4d1a6,#f6f3ee)] opacity-60 blur-2xl" />
 
       <main className="relative mx-auto flex max-w-6xl flex-col gap-20 px-6 pb-24 pt-28 sm:gap-24 sm:px-10">
-        <nav className="fixed inset-x-0 top-0 z-30 border-b border-black/5 bg-white/80 backdrop-blur">
-          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 text-sm font-semibold text-black/70 sm:px-10">
+        <nav className="fixed inset-x-0 top-0 z-30 bg-[color:var(--nav-surface)] backdrop-blur">
+          <div className="mx-auto flex max-w-6xl items-center gap-4 px-6 py-4 text-sm font-semibold text-black/70 sm:px-10">
             <a href="#" className="text-black">
               Portfolio
             </a>
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)] transition hover:border-black/30 hover:text-black md:hidden"
-              onClick={() => setMenuOpen((prev) => !prev)}
-              aria-expanded={menuOpen}
-              aria-controls="primary-navigation"
-            >
-              Menu
-              <span className="text-base">{menuOpen ? "✕" : "☰"}</span>
-            </button>
             <div
               id="primary-navigation"
-              className="hidden items-center gap-5 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)] md:flex"
+              className="hidden items-center gap-5 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)] md:flex md:mx-auto"
             >
               <a className="transition hover:text-black" href="#experience">
                 Experience
@@ -237,12 +258,12 @@ export default function Home() {
               <a className="transition hover:text-black" href="#skills">
                 Skills
               </a>
-            <a className="transition hover:text-black" href="#achievements">
-              Achievements
-            </a>
-            <a className="transition hover:text-black" href="#publications">
-              Publications
-            </a>
+              <a className="transition hover:text-black" href="#achievements">
+                Achievements
+              </a>
+              <a className="transition hover:text-black" href="#publications">
+                Publications
+              </a>
               <a className="transition hover:text-black" href="#certifications">
                 Certifications
               </a>
@@ -250,13 +271,47 @@ export default function Home() {
                 Contact
               </a>
             </div>
+            <div className="ml-auto flex items-center gap-3">
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)] transition hover:border-black/30 hover:text-black"
+                onClick={toggleTheme}
+                aria-label="Toggle dark mode"
+              >
+                <span className="text-base">
+                  {theme === "dark" ? "☾" : "☀"}
+                </span>
+                {theme === "dark" ? "Dark" : "Light"}
+              </button>
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)] transition hover:border-black/30 hover:text-black md:hidden"
+                onClick={() => setMenuOpen((prev) => !prev)}
+                aria-expanded={menuOpen}
+                aria-controls="primary-navigation"
+              >
+                Menu
+                <span className="text-base">{menuOpen ? "✕" : "☰"}</span>
+              </button>
+            </div>
           </div>
           <div
-            className={`border-t border-black/5 bg-white/95 px-6 py-4 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)] shadow-[0_18px_40px_-30px_rgba(0,0,0,0.35)] transition md:hidden ${
+            className={`border-t border-[color:var(--nav-border)] bg-[color:var(--surface-strong)] px-6 py-4 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)] shadow-[0_18px_40px_-30px_rgba(0,0,0,0.35)] transition md:hidden ${
               menuOpen ? "block" : "hidden"
             }`}
           >
             <div className="flex flex-col gap-4">
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)] transition hover:border-black/30 hover:text-black"
+                onClick={toggleTheme}
+                aria-label="Toggle dark mode"
+              >
+                <span className="text-base">
+                  {theme === "dark" ? "☾" : "☀"}
+                </span>
+                {theme === "dark" ? "Dark" : "Light"}
+              </button>
               <a
                 className="transition hover:text-black"
                 href="#experience"
@@ -311,9 +366,7 @@ export default function Home() {
         </nav>
         <header className="flex flex-col items-start justify-between gap-10 pt-6 lg:flex-row lg:items-center sm: mt-32">
           <div className="animate-fade-up max-w-2xl">
-            <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--muted)]">
-              Software Developer • AI Research Engineer • Data Scientist
-            </p>
+           
             <h1 className="mt-4 text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
               <span className="font-[var(--font-display)]">
                 Akaraiwe Bright Chidozie
@@ -364,7 +417,7 @@ export default function Home() {
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="rounded-2xl border border-black/5 bg-white/70 px-5 py-4 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.3)]"
+                  className="rounded-2xl border border-transparent bg-[color:var(--surface-soft)] px-5 py-4 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.3)]"
                 >
                   <p className="text-sm text-[color:var(--muted)]">
                     {stat.label}
@@ -375,9 +428,9 @@ export default function Home() {
             </div>
           </div>
           <div className="relative flex w-full max-w-sm animate-fade-in justify-center">
-            <div className="absolute -left-6 top-12 h-32 w-32 rounded-3xl border border-white/40 bg-white/60 shadow-[0_20px_50px_-32px_rgba(0,0,0,0.35)] backdrop-blur" />
+            <div className="absolute -left-6 top-12 h-32 w-32 rounded-3xl border border-white/20 bg-[color:var(--surface-soft)] shadow-[0_20px_50px_-32px_rgba(0,0,0,0.35)] backdrop-blur" />
             <div className="absolute -right-4 bottom-10 h-24 w-24 animate-float rounded-full bg-[color:var(--accent)]/80 blur-[40px]" />
-            <div className="relative rounded-[32px] border border-white/70 bg-white/70 p-4 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.4)] backdrop-blur">
+            <div className="relative rounded-[32px] border border-transparent bg-[color:var(--surface-soft)] p-4 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.4)] backdrop-blur">
               <Image
                 src="/profilepic.jpeg"
                 alt="Akaraiwe Bright Chidozie"
@@ -406,7 +459,7 @@ export default function Home() {
             {experience.map((role) => (
               <article
                 key={`${role.role}-${role.location}`}
-                className="rounded-3xl border border-black/5 bg-white/80 p-6 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.35)]"
+                className="rounded-3xl border border-transparent bg-[color:var(--surface)] p-6 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.35)]"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-[color:var(--muted)]">
                   <span>{role.location}</span>
@@ -441,7 +494,7 @@ export default function Home() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group rounded-3xl border border-black/5 bg-white/80 p-6 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.35)] transition hover:-translate-y-1"
+                className="group rounded-3xl border border-transparent bg-[color:var(--surface)] p-6 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.35)] transition hover:-translate-y-1"
               >
                 <div className="flex items-center justify-between text-sm text-[color:var(--muted)]">
                   <span className="uppercase tracking-[0.2em] text-xs">
@@ -461,7 +514,7 @@ export default function Home() {
         </section>
 
         <section id="skills" className="animate-fade-up">
-          <div className="rounded-[40px] border border-black/5 bg-white/80 p-10 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.35)]">
+          <div className="rounded-[40px] border border-transparent bg-[color:var(--surface)] p-10 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.35)]">
             <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--muted)]">
               Technical Skills
             </p>
@@ -472,7 +525,7 @@ export default function Home() {
               {skills.map((skill) => (
                 <div
                   key={skill.category}
-                  className="rounded-3xl border border-black/5 bg-white/80 p-6 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.35)]"
+                  className="rounded-3xl border border-transparent bg-[color:var(--surface)] p-6 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.35)]"
                 >
                   <h3 className="mt-3 text-lg font-semibold text-foreground">
                     {skill.category}
@@ -489,7 +542,7 @@ export default function Home() {
         </section>
 
         <section id="achievements" className="animate-fade-up">
-          <div className="rounded-[32px] border border-black/5 bg-white/80 p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
+          <div className="rounded-[32px] border border-transparent bg-[color:var(--surface)] p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
             <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--muted)]">
               Key Achievements
             </p>
@@ -532,7 +585,7 @@ export default function Home() {
         </section>
 
         <section id="publications" className="animate-fade-up">
-          <div className="rounded-[32px] border border-black/5 bg-white/80 p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
+          <div className="rounded-[32px] border border-transparent bg-[color:var(--surface)] p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
             <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--muted)]">
               Publications
             </p>
@@ -558,7 +611,7 @@ export default function Home() {
         </section>
 
         <section id="certifications" className="animate-fade-up">
-          <div className="rounded-[32px] border border-black/5 bg-white/80 p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
+          <div className="rounded-[32px] border border-transparent bg-[color:var(--surface)] p-8 shadow-[0_26px_60px_-40px_rgba(0,0,0,0.35)]">
             <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--muted)]">
               Certifications
             </p>
@@ -566,7 +619,7 @@ export default function Home() {
               {certifications.map((cert) => (
                 <div
                   key={cert}
-                  className="rounded-2xl border border-black/5 bg-white/70 px-4 py-3"
+                className="rounded-2xl border border-transparent bg-[color:var(--surface-soft)] px-4 py-3"
                 >
                   {cert}
                 </div>
@@ -577,7 +630,7 @@ export default function Home() {
 
         <section
           id="contact"
-          className="animate-fade-up rounded-[36px] border border-black/5 bg-white/90 p-10 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.35)]"
+          className="animate-fade-up rounded-[36px] border border-transparent bg-[color:var(--surface-strong)] p-10 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.35)]"
         >
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div>

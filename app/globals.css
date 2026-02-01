@@ -6,6 +6,12 @@
   --accent: #c46f2d;
   --accent-dark: #8d4a1e;
   --muted: #6b6b6b;
+  --surface: rgba(255, 255, 255, 0.95);
+  --surface-strong: rgba(255, 255, 255, 0.98);
+  --surface-soft: rgba(255, 255, 255, 0.9);
+  --surface-border: rgba(18, 18, 18, 0.06);
+  --nav-surface: rgba(255, 255, 255, 0.8);
+  --nav-border: rgba(18, 18, 18, 0.06);
 }
 
 @theme inline {
@@ -22,7 +28,27 @@
     --accent: #e08a43;
     --accent-dark: #b5642a;
     --muted: #bdb9b4;
+    --surface: rgba(18, 18, 18, 0.92);
+    --surface-strong: rgba(16, 16, 16, 0.96);
+    --surface-soft: rgba(22, 22, 22, 0.86);
+    --surface-border: rgba(255, 255, 255, 0.08);
+    --nav-surface: rgba(12, 12, 12, 0.85);
+    --nav-border: rgba(255, 255, 255, 0.08);
   }
+}
+
+.dark {
+  --background: #0c0b0a;
+  --foreground: #f3f3f1;
+  --accent: #e08a43;
+  --accent-dark: #b5642a;
+  --muted: #bdb9b4;
+  --surface: rgba(18, 18, 18, 0.92);
+  --surface-strong: rgba(16, 16, 16, 0.96);
+  --surface-soft: rgba(22, 22, 22, 0.86);
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --nav-surface: rgba(12, 12, 12, 0.85);
+  --nav-border: rgba(255, 255, 255, 0.08);
 }
 
 body {
